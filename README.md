@@ -101,6 +101,7 @@ And lastly, just for kicks, clicking the company’s logo routes the user to my 
 """
 CRUD class in the animal_shelter.py CRUD module
 """
+
 class AnimalShelter(object):
 
     #init for connecting to mongodb with authentication
@@ -116,6 +117,7 @@ class AnimalShelter(object):
 """
 Function in the animal_shelter.py CRUD Module to read all matching documents from the mongo database                              
 """ 
+
 def read_all(self, data):
         
     #Check to make sure the method call contained data
@@ -146,6 +148,7 @@ def read_all(self, data):
 """
 Creating a CRUD object and accessing the Data Model (MongoDB) in the dashboard.py file
 """
+
 #Hard-coding the username and password into the current implementation
 username = "gsUser"
 password = "gsUserPass1"
@@ -159,6 +162,7 @@ df = pd.DataFrame.from_records(shelter.read_all({}))
 """
 Radio Items for the View component used in filter callback tied to the data table in the dashboard.py file
 """
+
 #RadioItems to filter results in the data table and charts
 html.Div([
     html.Center(
@@ -178,6 +182,7 @@ html.Div([
 """
 Callback in the dashboard.py file returns data frame data and columns based on radio item selections from the user and returns the selected row to the top row displayed in the data table
 """
+
 @app.callback([Output('datatable-id', 'data'),
                Output('datatable-id', 'columns'),
                Output('datatable-id', 'selected_rows')],
