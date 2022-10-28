@@ -104,46 +104,46 @@ CRUD class in the animal_shelter.py CRUD module
 
 class AnimalShelter(object):
 
-    #init for connecting to mongodb with authentication
+    # init for connecting to mongodb with authentication
     def __init__(self, username, password):   
         
-        #Calling the MongoClient function with username and password parameters
+        # Calling the MongoClient function with username and password parameters
         self.client = MongoClient(
-            'mongodb+srv://%s:%s@clientserverxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'%(username, password))
+            'mongodb+srv://%s:%s@clientserver-app.kkumc2n.mongodb.net/?retryWrites=true&w=majority'%(username, password))
 
-        #Accessing the AAC database through the client
+        # Accessing the AAC database through the client
         self.database = self.client['AAC']
 
 """
 Function in the animal_shelter.py CRUD Module to read all matching documents from the mongo database                              
 """ 
 
-def read_all(self, data):
+    def read_all(self, data):
         
-    #Check to make sure the method call contained data
-    if data is not None:
-
-        #Calling the find function to retrieve a cursor for all matching documents
-        #Using a projection to exclude the underscore id from the cursor
-        result = self.database.animals.find(data, {'_id':False})
-
-        #If the find method executed properly
-        if result:
-
-            #Return the result
-            return result
-
+        # Check to make sure the method call contained data
+        if data is not None:
+        
+            # Calling the find function to retrieve a cursor for all matching documents
+            # Using a projection to exclude the underscore id from the cursor
+            result = self.database.animals.find(data, {'_id':False})
+            
+            # If the find method executed properly
+            if result:
+                
+                # Return the result
+                return result
+               
+            else:
+                
+                # Print failure message:
+                print("Error: Read All operation failed")
+                
+        # If method call contained no data...
         else:
-
-            #Print failure message:
-            print("Error: Read All operation failed")
-
-    #If method call contained no data...
-    else:
-
-        #Print error message
-        print("Error: No data")
-        return False
+            
+            # Print error message
+            print("Error: No data")
+            return False
         
 """
 Creating a CRUD object and accessing the Data Model (MongoDB) in the dashboard.py file
@@ -163,21 +163,20 @@ df = pd.DataFrame.from_records(shelter.read_all({}))
 Radio Items for the View component used in filter callback tied to the data table in the dashboard.py file
 """
 
-#RadioItems to filter results in the data table and charts
-html.Div([
-    html.Center(
-        dcc.RadioItems(
-            id='radio-items-id',
-            options=[
-                {'label': 'Water Rescue', 'value': 1},
-                {'label': 'Mountain Rescue', 'value': 2},
-                {'label': 'Disaster Rescue', 'value': 3},
-                {'label': 'Reset', 'value': 4}
-            ],
-            labelStyle={'display': 'inline-block'}
+    html.Div([
+        html.Center(
+            dcc.RadioItems(
+                id='radio-items-id',
+                options=[
+                    {'label': 'Water Rescue', 'value': 1},
+                    {'label': 'Mountain Rescue', 'value': 2},
+                    {'label': 'Disaster Rescue', 'value': 3},
+                    {'label': 'Reset', 'value': 4}
+                ],
+                labelStyle={'display': 'inline-block'}
+            )
         )
-    )
-]),
+    ]),
 
 """
 Callback in the dashboard.py file returns data frame data and columns based on radio item selections from the user and returns the selected row to the top row displayed in the data table
@@ -189,10 +188,10 @@ Callback in the dashboard.py file returns data frame data and columns based on r
               [Input('radio-items-id', 'value')])
 def update_dashboard(filter_type):
 
-    #Default will include all records
+    # Default will include all records
     df = pd.DataFrame(list(shelter.read_all({})))
 
-    #If user clicks Water Rescue
+    # If user clicks Water Rescue
     if (filter_type == 1):
         df = pd.DataFrame(list(shelter.read_all({
             "animal_type": "Dog",
@@ -201,7 +200,7 @@ def update_dashboard(filter_type):
             "age_upon_outcome_in_weeks": {"$gte": 26},
             "age_upon_outcome_in_weeks": {"$lte": 156}})))
 
-    #If user clicks Mountain Rescue
+    # If user clicks Mountain Rescue
     elif (filter_type == 2):
         df = pd.DataFrame(list(shelter.read_all({
             "animal_type": "Dog",
@@ -211,7 +210,7 @@ def update_dashboard(filter_type):
             "age_upon_outcome_in_weeks": {"$gte": 26},
             "age_upon_outcome_in_weeks": {"$lte": 156}})))
 
-    #If user clicks Distaster Rescue
+    # If user clicks Distaster Rescue
     elif (filter_type == 3):
         df = pd.DataFrame(list(shelter.read_all({
             "animal_type": "Dog",
@@ -222,20 +221,20 @@ def update_dashboard(filter_type):
             "age_upon_outcome_in_weeks": {"$gte": 20},
             "age_upon_outcome_in_weeks": {"$lte": 300}})))
 
-    #If user clicks reset
+    # If user clicks reset
     elif (filter_type == 4):
         df = pd.DataFrame(list(shelter.read_all({})))
 
-    #Set columns to return
+    # Set columns to return
     columns = [{"name": i, "id": i, "deletable": False, "selectable": True} for i in df.columns]
 
-    #Set data to return based on conditional logic above
+    # Set data to return based on conditional logic above
     data = df.to_dict('records')
 
-    #Reset the selected row to the first row
+    # Reset the selected row to the first row
     row = [0]
 
-    #Return the data and columns based on user's filter radio item selection
+    # Return the data and columns based on user's filter radio item selection
     return (data, columns, row)
 
 """
@@ -248,26 +247,26 @@ Callback in the dashboard.py file returns an updated geolocation chart based on 
 )
 def update_map(viewData, selectedRows):
 
-    #Dataframe used for the Geolocation Chart based on datatable input
+    # Dataframe used for the Geolocation Chart based on datatable input
     df = pd.DataFrame.from_dict(viewData)
 
-    #List of row positions for all selected rows. Current implementation only allows single row.
+    # List of row positions for all selected rows. Current implementation only allows single row.
     selected_rows = selectedRows
 
-    #If no rows currently selected, geolocation defaults to the data from the top row of the dataframe
-    #NOTE: If filtered, the geolocation chart will update based on the top row of the filtered dataframe
+    # If no rows currently selected, geolocation defaults to the data from the top row of the dataframe
+    # NOTE: If filtered, the geolocation chart will update based on the top row of the filtered dataframe
     if not selectedRows:
         selected_rows = [0]
 
-    #Creating variables for data to be displayed in the marker's tooltip and popup based off selected row
+    # Creating variables for data to be displayed in the marker's tooltip and popup based off selected row
     breed = df.iloc[selected_rows[0], 4]
     animal_name = df.iloc[selected_rows[0], 9]
 
-    #Creating variables for latitude and longitude based off selected row
+    # Creating variables for latitude and longitude based off selected row
     latitude = df.iloc[selected_rows[0], 13]
     longitude = df.iloc[selected_rows[0], 14]
 
-    #Return a leaflet Map object based on the selected row
+    # Return a leaflet Map object based on the selected row
     return [
         dl.Map(
             style={'width': '1000px', 'height': '500px'},
@@ -275,18 +274,18 @@ def update_map(viewData, selectedRows):
             zoom=9,
             children=[
 
-                #Using default TileLayer
+                # Using default TileLayer
                 dl.TileLayer(),
 
-                #Marker with tool tip and popup
+                # Marker with tool tip and popup
                 dl.Marker(
                     position=[latitude, longitude],
                     children=[
 
-                        #Tooltip displays animal breed
+                        # Tooltip displays animal breed
                         dl.Tooltip(breed),
 
-                        #Popup displays animal breed and animal name (if data available)
+                        # Popup displays animal breed and animal name (if data available)
                         dl.Popup([
                             html.H3("Animal Breed"),
                             html.P(breed),
