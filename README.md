@@ -98,10 +98,9 @@ And lastly, just for kicks, clicking the company’s logo routes the user to my 
 
 # Code Examples
 
-###############################################
+"""
 CRUD class in the animal_shelter.py CRUD module
-###############################################
-
+"""
 class AnimalShelter(object):
 
     #init for connecting to mongodb with authentication
@@ -114,10 +113,9 @@ class AnimalShelter(object):
         #Accessing the AAC database through the client
         self.database = self.client['AAC']
 
-####################################################################################################
+"""
 Function in the animal_shelter.py CRUD Module to read all matching documents from the mongo database                              
-#################################################################################################### 
-
+""" 
 def read_all(self, data):
         
     #Check to make sure the method call contained data
@@ -145,10 +143,9 @@ def read_all(self, data):
         print("Error: No data")
         return False
         
-######################################################################################
+"""
 Creating a CRUD object and accessing the Data Model (MongoDB) in the dashboard.py file
-######################################################################################
-
+"""
 #Hard-coding the username and password into the current implementation
 username = "gsUser"
 password = "gsUserPass1"
@@ -159,10 +156,9 @@ shelter = AnimalShelter(username, password)
 #Calling the read_all method from the CRUD module and creating a pandas DataFrame
 df = pd.DataFrame.from_records(shelter.read_all({}))
 
-##########################################################################################################
+"""
 Radio Items for the View component used in filter callback tied to the data table in the dashboard.py file
-##########################################################################################################
-
+"""
 #RadioItems to filter results in the data table and charts
 html.Div([
     html.Center(
@@ -179,10 +175,9 @@ html.Div([
     )
 ]),
 
-##############################################################################################################################################################
+"""
 Callback in the dashboard.py file returns data frame data and columns based on radio item selections from the user and returns the selected row to the top row displayed in the data table
-##############################################################################################################################################################
-
+"""
 @app.callback([Output('datatable-id', 'data'),
                Output('datatable-id', 'columns'),
                Output('datatable-id', 'selected_rows')],
@@ -238,9 +233,9 @@ def update_dashboard(filter_type):
     #Return the data and columns based on user's filter radio item selection
     return (data, columns, row)
 
-#######################################################################################################################
+"""
 Callback in the dashboard.py file returns an updated geolocation chart based on selections and filters in the datatable
-#######################################################################################################################
+"""
 
 @app.callback(
     Output('map-id', 'children'),
