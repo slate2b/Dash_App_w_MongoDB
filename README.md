@@ -20,6 +20,8 @@ This project includes the following modules, libraries, components, widgets, etc
 
 The CRUD module and dashboard could be easily adapted for use in any number of client-server applications.
 
+![ClientServerApp_screenshot1](https://user-images.githubusercontent.com/88697660/198503069-71e44f21-204f-46e9-b199-597c6b3894fb.PNG)
+
 # Getting Started
 
 To get a local copy of this application up and running, there are some initial steps which must be followed, including downloading project files and preparing the MongoDB.  Please review the following steps to get started:
