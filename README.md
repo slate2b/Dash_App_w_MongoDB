@@ -98,25 +98,21 @@ And lastly, just for kicks, clicking the company’s logo routes the user to my 
 
 # Code Examples
 
-"""
-CRUD class in the animal_shelter.py CRUD module
-"""
+# CRUD class in the animal_shelter.py CRUD module
 
-class AnimalShelter(object):
+  class AnimalShelter(object):
 
-    # init for connecting to mongodb with authentication
-    def __init__(self, username, password):   
-        
-        # Calling the MongoClient function with username and password parameters
-        self.client = MongoClient(
-            'mongodb+srv://%s:%s@clientserver-app.kkumc2n.mongodb.net/?retryWrites=true&w=majority'%(username, password))
+      # init for connecting to mongodb with authentication
+      def __init__(self, username, password):   
 
-        # Accessing the AAC database through the client
-        self.database = self.client['AAC']
+          # Calling the MongoClient function with username and password parameters
+          self.client = MongoClient(
+              'mongodb+srv://%s:%s@clientserver-app.kkumc2n.mongodb.net/?retryWrites=true&w=majority'%(username, password))
 
-"""
-Function in the animal_shelter.py CRUD Module to read all matching documents from the mongo database                              
-""" 
+          # Accessing the AAC database through the client
+          self.database = self.client['AAC']
+
+# Function in the animal_shelter.py CRUD Module to read all matching documents from the mongo database                              
 
     def read_all(self, data):
         
@@ -145,23 +141,19 @@ Function in the animal_shelter.py CRUD Module to read all matching documents fro
             print("Error: No data")
             return False
         
-"""
-Creating a CRUD object and accessing the Data Model (MongoDB) in the dashboard.py file
-"""
+# Creating a CRUD object and accessing the Data Model (MongoDB) in the dashboard.py file
 
-#Hard-coding the username and password into the current implementation
-username = "gsUser"
-password = "gsUserPass1"
+  #Hard-coding the username and password into the current implementation
+  username = "gsUser"
+  password = "gsUserPass1"
 
-#Creating a AnimalShelter (CRUD class) object
-shelter = AnimalShelter(username, password)
+  #Creating a AnimalShelter (CRUD class) object
+  shelter = AnimalShelter(username, password)
 
-#Calling the read_all method from the CRUD module and creating a pandas DataFrame
-df = pd.DataFrame.from_records(shelter.read_all({}))
+  #Calling the read_all method from the CRUD module and creating a pandas DataFrame
+  df = pd.DataFrame.from_records(shelter.read_all({}))
 
-"""
-Radio Items for the View component used in filter callback tied to the data table in the dashboard.py file
-"""
+# Radio Items for the View component used in filter callback tied to the data table in the dashboard.py file
 
     html.Div([
         html.Center(
@@ -178,125 +170,121 @@ Radio Items for the View component used in filter callback tied to the data tabl
         )
     ]),
 
-"""
-Callback in the dashboard.py file returns data frame data and columns based on radio item selections from the user and returns the selected row to the top row displayed in the data table
-"""
+# Callback in the dashboard.py file returns data frame data and columns based on radio item selections from the user and returns the selected row to the top row displayed in the data table
 
-@app.callback([Output('datatable-id', 'data'),
-               Output('datatable-id', 'columns'),
-               Output('datatable-id', 'selected_rows')],
-              [Input('radio-items-id', 'value')])
-def update_dashboard(filter_type):
+  @app.callback([Output('datatable-id', 'data'),
+                 Output('datatable-id', 'columns'),
+                 Output('datatable-id', 'selected_rows')],
+                [Input('radio-items-id', 'value')])
+  def update_dashboard(filter_type):
 
-    # Default will include all records
-    df = pd.DataFrame(list(shelter.read_all({})))
+      # Default will include all records
+      df = pd.DataFrame(list(shelter.read_all({})))
 
-    # If user clicks Water Rescue
-    if (filter_type == 1):
-        df = pd.DataFrame(list(shelter.read_all({
-            "animal_type": "Dog",
-            "breed": {"$in": ["Labrador Retriever Mix", "Chesapeake Bay Retriever", "Newfoundland"]},
-            "sex_upon_outcome": "Intact Female",
-            "age_upon_outcome_in_weeks": {"$gte": 26},
-            "age_upon_outcome_in_weeks": {"$lte": 156}})))
+      # If user clicks Water Rescue
+      if (filter_type == 1):
+          df = pd.DataFrame(list(shelter.read_all({
+              "animal_type": "Dog",
+              "breed": {"$in": ["Labrador Retriever Mix", "Chesapeake Bay Retriever", "Newfoundland"]},
+              "sex_upon_outcome": "Intact Female",
+              "age_upon_outcome_in_weeks": {"$gte": 26},
+              "age_upon_outcome_in_weeks": {"$lte": 156}})))
 
-    # If user clicks Mountain Rescue
-    elif (filter_type == 2):
-        df = pd.DataFrame(list(shelter.read_all({
-            "animal_type": "Dog",
-            "breed": {"$in": ["German Shepherd", "Alaskan Malamute", "Old English Sheepdog",
-                              "Siberian Husky", "Rottweiler"]},
-            "sex_upon_outcome": "Intact Male",
-            "age_upon_outcome_in_weeks": {"$gte": 26},
-            "age_upon_outcome_in_weeks": {"$lte": 156}})))
+      # If user clicks Mountain Rescue
+      elif (filter_type == 2):
+          df = pd.DataFrame(list(shelter.read_all({
+              "animal_type": "Dog",
+              "breed": {"$in": ["German Shepherd", "Alaskan Malamute", "Old English Sheepdog",
+                                "Siberian Husky", "Rottweiler"]},
+              "sex_upon_outcome": "Intact Male",
+              "age_upon_outcome_in_weeks": {"$gte": 26},
+              "age_upon_outcome_in_weeks": {"$lte": 156}})))
 
-    # If user clicks Distaster Rescue
-    elif (filter_type == 3):
-        df = pd.DataFrame(list(shelter.read_all({
-            "animal_type": "Dog",
-            # NOTE: Using breed name 'Doberman Pinsch' to match breed name in data set
-            "breed": {"$in": ["Doberman Pinsch", "German Shepherd", "Golden Retriever",
-                              "Bloodhound", "Rottweiler"]},
-            "sex_upon_outcome": "Intact Male",
-            "age_upon_outcome_in_weeks": {"$gte": 20},
-            "age_upon_outcome_in_weeks": {"$lte": 300}})))
+      # If user clicks Distaster Rescue
+      elif (filter_type == 3):
+          df = pd.DataFrame(list(shelter.read_all({
+              "animal_type": "Dog",
+              # NOTE: Using breed name 'Doberman Pinsch' to match breed name in data set
+              "breed": {"$in": ["Doberman Pinsch", "German Shepherd", "Golden Retriever",
+                                "Bloodhound", "Rottweiler"]},
+              "sex_upon_outcome": "Intact Male",
+              "age_upon_outcome_in_weeks": {"$gte": 20},
+              "age_upon_outcome_in_weeks": {"$lte": 300}})))
 
-    # If user clicks reset
-    elif (filter_type == 4):
-        df = pd.DataFrame(list(shelter.read_all({})))
+      # If user clicks reset
+      elif (filter_type == 4):
+          df = pd.DataFrame(list(shelter.read_all({})))
 
-    # Set columns to return
-    columns = [{"name": i, "id": i, "deletable": False, "selectable": True} for i in df.columns]
+      # Set columns to return
+      columns = [{"name": i, "id": i, "deletable": False, "selectable": True} for i in df.columns]
 
-    # Set data to return based on conditional logic above
-    data = df.to_dict('records')
+      # Set data to return based on conditional logic above
+      data = df.to_dict('records')
 
-    # Reset the selected row to the first row
-    row = [0]
+      # Reset the selected row to the first row
+      row = [0]
 
-    # Return the data and columns based on user's filter radio item selection
-    return (data, columns, row)
+      # Return the data and columns based on user's filter radio item selection
+      return (data, columns, row)
 
-"""
-Callback in the dashboard.py file returns an updated geolocation chart based on selections and filters in the datatable
-"""
+# Callback in the dashboard.py file returns an updated geolocation chart based on selections and filters in the datatable
 
-@app.callback(
-    Output('map-id', 'children'),
-    [Input('datatable-id', 'data'), Input('datatable-id', 'selected_rows')]
-)
-def update_map(viewData, selectedRows):
+  @app.callback(
+      Output('map-id', 'children'),
+      [Input('datatable-id', 'data'), Input('datatable-id', 'selected_rows')]
+  )
+  def update_map(viewData, selectedRows):
 
-    # Dataframe used for the Geolocation Chart based on datatable input
-    df = pd.DataFrame.from_dict(viewData)
+      # Dataframe used for the Geolocation Chart based on datatable input
+      df = pd.DataFrame.from_dict(viewData)
 
-    # List of row positions for all selected rows. Current implementation only allows single row.
-    selected_rows = selectedRows
+      # List of row positions for all selected rows. Current implementation only allows single row.
+      selected_rows = selectedRows
 
-    # If no rows currently selected, geolocation defaults to the data from the top row of the dataframe
-    # NOTE: If filtered, the geolocation chart will update based on the top row of the filtered dataframe
-    if not selectedRows:
-        selected_rows = [0]
+      # If no rows currently selected, geolocation defaults to the data from the top row of the dataframe
+      # NOTE: If filtered, the geolocation chart will update based on the top row of the filtered dataframe
+      if not selectedRows:
+          selected_rows = [0]
 
-    # Creating variables for data to be displayed in the marker's tooltip and popup based off selected row
-    breed = df.iloc[selected_rows[0], 4]
-    animal_name = df.iloc[selected_rows[0], 9]
+      # Creating variables for data to be displayed in the marker's tooltip and popup based off selected row
+      breed = df.iloc[selected_rows[0], 4]
+      animal_name = df.iloc[selected_rows[0], 9]
 
-    # Creating variables for latitude and longitude based off selected row
-    latitude = df.iloc[selected_rows[0], 13]
-    longitude = df.iloc[selected_rows[0], 14]
+      # Creating variables for latitude and longitude based off selected row
+      latitude = df.iloc[selected_rows[0], 13]
+      longitude = df.iloc[selected_rows[0], 14]
 
-    # Return a leaflet Map object based on the selected row
-    return [
-        dl.Map(
-            style={'width': '1000px', 'height': '500px'},
-            center=[latitude, longitude],
-            zoom=9,
-            children=[
+      # Return a leaflet Map object based on the selected row
+      return [
+          dl.Map(
+              style={'width': '1000px', 'height': '500px'},
+              center=[latitude, longitude],
+              zoom=9,
+              children=[
 
-                # Using default TileLayer
-                dl.TileLayer(),
+                  # Using default TileLayer
+                  dl.TileLayer(),
 
-                # Marker with tool tip and popup
-                dl.Marker(
-                    position=[latitude, longitude],
-                    children=[
+                  # Marker with tool tip and popup
+                  dl.Marker(
+                      position=[latitude, longitude],
+                      children=[
 
-                        # Tooltip displays animal breed
-                        dl.Tooltip(breed),
+                          # Tooltip displays animal breed
+                          dl.Tooltip(breed),
 
-                        # Popup displays animal breed and animal name (if data available)
-                        dl.Popup([
-                            html.H3("Animal Breed"),
-                            html.P(breed),
-                            html.H3("Animal Name"),
-                            html.P(animal_name),
-                        ])
-                    ]
-                )
-            ]
-        )
-    ]
+                          # Popup displays animal breed and animal name (if data available)
+                          dl.Popup([
+                              html.H3("Animal Breed"),
+                              html.P(breed),
+                              html.H3("Animal Name"),
+                              html.P(animal_name),
+                          ])
+                      ]
+                  )
+              ]
+          )
+      ]
 
 # Screenshot of Data Table with radio button filter active and animal selected
 
