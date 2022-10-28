@@ -20,6 +20,8 @@ This project includes the following modules, libraries, components, widgets, etc
 
 The CRUD module and dashboard could be easily adapted for use in any number of client-server applications.
 
+# Screenshot of Dashboard on Initial Load
+
 ![ClientServerApp_screenshot1](https://user-images.githubusercontent.com/88697660/198503069-71e44f21-204f-46e9-b199-597c6b3894fb.PNG)
 
 # Getting Started
