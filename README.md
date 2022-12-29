@@ -1,3 +1,4 @@
+# Rescue Animal Dashboard App
 # Dash App with MongoDB
 
 This project is a Client-Server Dashboard Application which follows the Model View Controller (MVC) Software Design Pattern.  It uses the RESTful protocol for additional utility and security.  The application includes a database and a client-facing web application dashboard which allows users to interact with the data through filter options and a data table.  The dashboard also provides data visualization through a pie chart and a geolocation chart which update based on the user’s interactions with the filters and the data table.  I originally created the sketch of this application in my Client-Server Application Development class at Southern New Hampshire University, but this version includes several changes.
